@@ -20,5 +20,14 @@
 - Strength 0 remains fully manual as required by AGENTS.md. The relationship between positive strength and a contact guarantee must be made concrete before Phase 4; this is not permission to quietly weaken the guarantee.
 - Contact guarantee must coexist with finite force/torque, reach limits, and no sword teleportation. Physically unreachable contacts cannot be assumed solvable. Phase 4 must expose infeasible cases and obtain a decision if these requirements cannot coexist within the selected gate.
 - The 15-degree wrist example in VISION.md is illustrative, not an approved threshold.
-- Input precedence when both mouse buttons are held, lock-on acquisition/switching, and camera-look versus sword-input routing remain Phase 1 design questions. Do not silently implement them.
+- Initial Phase 1 control questions are resolved in the Phase 1 authorization entry below. Target acquisition/switching is excluded; a single movable reference is used.
 - Concrete test thresholds below are provisional starting values from the proposed success gate, not evidence of feel or universal physical truth.
+
+## Phase 1 authorization and controls — 2026-11-06
+
+- Phase 0 approved by developer after F1/F2/F5 playtest. Phase 1 is authorized; Phase 2 is not.
+- Fixed camera, no free rotation. C cycles rear, side, and shoulder-like presets. The eventual third-person camera decision is unchanged.
+- One debug target supplies automatic depth through a replaceable strategy. Keyboard movement is required; no target selection system in this phase.
+- RMB/defend takes precedence when both mouse buttons are held. Re-evaluate after playtesting. Intent is diagnostic only until later assistance work.
+- Tuning panel must occupy a corner, be translucent and closable while the sword stays visible.
+- Phase 1 controls: Tab toggles cursor capture; F2 opens tuning and releases the cursor. Uncaptured mode holds the desired pose while editing. C changes view without changing the desired pose. I/K, J/L, U/O move the debug target forward/back, left/right, up/down. R recenters the desired target only; it never teleports the physical sword.

@@ -16,7 +16,7 @@
 
 ## 2026-11-06 â€” Phase 0 handoff
 
-Developer approval: pending. Combat feel is not evaluated in this phase.
+Developer approval: received. Developer confirmed F1/F2/F5 work. Feedback: panel occupied the window; Phase 1 must use a translucent, closable corner panel. Combat feel was not evaluated.
 
 Manual checklist:
 1. Import the root project.godot and run with F6 on phase_zero.tscn or the editor Run Project button. F5 is Godot's editor Run shortcut and the running lab's reset shortcut.
@@ -30,3 +30,31 @@ Manual checklist:
 ANTI_GOOFY status: all eleven symptom/feeling items and the three preservation goals are not yet testable. No sword, arms, locomotion, parry or combat exists. None is marked solved by an empty scene.
 
 Automated evidence is recorded in VALIDATION.md after checks finish.
+
+## Phase 1 handoff — 2026-11-06
+
+Developer approval: pending. Automated results are in VALIDATION.md. Main scene: sword_lab.tscn.
+
+1. Run the root project. Confirm the floor, sword, orange desired outline, cyan actual outline, yellow reference and brown obstacle. Report visibility problems and screen resolution.
+2. Move the mouse slowly in the clear space left of the obstacle, then stop. Report lag, drift and whether the actual blade settles onto the target. Tab releases/captures the cursor.
+3. Reverse direction sharply several times, then stop. Report runaway motion, persistent wobble and control clarity (1–5). Automated 100-reversal evidence does not replace human feel.
+4. Press C through all three views. Report which best exposes the blade and whether side-view input feels understandable. Camera switches must not move the target by themselves.
+5. Hold I/K to move the reference forward/back; J/L moves it left/right, U/O up/down. Report whether depth changes feel predictable. Only Z drives depth; X/Y must not automatically aim the sword at the marker. R restores the reference and desired goal via normal physical tracking.
+6. From the rear view, steer the blade right into the brown obstacle, hold briefly, then pull left into free space. Repeat at different heights/angles. Report pass-throughs, sustained jitter, stuck states, and displayed recovery time. For a formal gate run, record 20 attempts.
+7. Open F2, change Position Gain from 100 to 150, close the panel and repeat slow motion/contact. Compare tracking and weight. Change Position Damping independently. Restore with F5. Report whether the panel obstructs the sword and whether the mouse ever drives the sword while adjusting fields.
+8. Hold LMB, RMB, then both: ATTACK, DEFEND, DEFEND should appear. No assistance should occur. Confirm whether defend priority should remain or be revisited.
+9. Toggle F1 to judge the physical blade without debug outlines. Rate control clarity, perceived weight and desire to replay (1–5); describe every "I did not intend that" action. Report chosen tuning values, view and log excerpt with issues.
+
+ANTI_GOOFY status:
+- Flat hit despite intended edge/tip: not yet testable (no intent classification/damage alignment).
+- Unexplained slow swings: partially addressed (bounded PD/rate limits and force/error telemetry); feel pending.
+- Aimed spot missed: partially addressed by explicit desired/actual display; no target magnetism; human assessment pending.
+- Intended stab goes sideways: not yet testable as an intent-recognition requirement.
+- Impossible arm bends, unreachable anatomical pose, goofy walking: not yet testable (no character).
+- Correct parry lost to wrist error: not yet testable (no opponent sword or assist).
+- Unforgiving/not-where-I-put-it control: partially addressed by tunable mapping/controller; feel pending.
+- "I did not intend that": human assessment pending, not marked solved.
+- Freedom without absurd outcomes: partially addressed by bounded desired region/rates and capped physical drive; human assessment pending.
+- Preserve weight/momentum: physical body implemented, subjective weight unverified.
+- Preserve angle/timing freedom: partial, provisional pitch/roll mapping, no independent full manual orientation controls.
+- Preserve believable clashes: hard-obstacle contact verified; sword clashes deferred to Phase 2.

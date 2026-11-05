@@ -28,3 +28,7 @@ Manual gate: slow guidance, abrupt reversal, withdrawal from an obstacle, and sl
 - If controlled contact tests cannot reliably prevent tunneling/missed hits, investigate physics tick, sweep coverage and speed envelope before character work.
 - If in-gate parry guarantees require teleportation or unbounded forces, stop Phase 4 and present a documented choice about gate feasibility or design constraints. Do not silently weaken the approved guarantee.
 - If the developer still does not enjoy the lab after documented tuning comparisons, request a redirect or stop decision; technical metrics do not overrule feel.
+
+## Current gate state
+
+Phase 0 approved by developer (F1/F2/F5 confirmed). Phase 1 implementation and automated checks complete; manual feel approval pending. Phase 2 remains unauthorized. The initial camera/input and reference-depth decisions are resolved in DECISIONS.md; the conditional parry feasibility question remains a Phase 4 issue.

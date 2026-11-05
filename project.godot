@@ -11,22 +11,19 @@ config_version=5
 [application]
 
 config/name="Idarg"
-run/main_scene="res://scenes/test/phase_zero.tscn"
+run/main_scene="res://scenes/test/sword_lab.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
+
+[debug]
+
+file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/sword_lab.log"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-
-[physics]
-
-3d/physics_engine="Jolt Physics"
-
-[rendering]
-
-rendering_device/driver.windows="d3d12"
 
 [layer_names]
 
@@ -36,7 +33,10 @@ rendering_device/driver.windows="d3d12"
 3d_physics/layer_4="Body"
 3d_physics/layer_5="Hurtbox"
 
-[debug]
+[physics]
 
-file_logging/enable_file_logging=true
-file_logging/log_path="user://logs/phase_zero.log"
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"

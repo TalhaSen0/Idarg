@@ -1,8 +1,8 @@
 # Architecture draft
 
-## Current implementation: Phase 0
+## Historical baseline: Phase 0
 
-`scenes/test/phase_zero.tscn` is the main scene, containing only a composition root and diagnostic UI. No sword, physical controller, gameplay camera, intent classifier, AI, or character is implemented.
+`scenes/test/phase_zero.tscn` was the Phase 0 main scene, containing only a composition root and diagnostic UI. No sword, physical controller, gameplay camera, intent classifier, AI, or character is implemented.
 
 - `PhaseZero`: constructs and wires components; owns a duplicate of the tuning Resource for this run.
 - `DebugTuning`: typed exported settings; baseline stored under resources/tuning.
@@ -13,7 +13,7 @@
 
 Communication uses signals and injected references, not deep node paths. Runtime setting changes are session-only; restarting or resetting restores the .tres baseline. Godot file logging persists diagnostics under user://logs/phase_zero.log.
 
-## Planned pipeline (not implemented)
+## Full pipeline (partially implemented in Phase 1)
 
 Input -> IntentReader -> SwordMotionPlanner -> PhysicalSwordController -> actual sword pose -> ArmIK -> kinematic BodyAnimation.
 
@@ -54,3 +54,31 @@ Versioned references checked during setup:
 - https://docs.godotengine.org/en/4.7/tutorials/physics/using_jolt_physics.html
 
 SkeletonIK3D is deprecated; IKModifier3D has ChainIK3D and TwoBoneIK3D derivatives. Do not choose an IK implementation before Phase 3 validation. Jolt does not support several soft-limit joint properties. ShapeCast3D sweeps along target_position; it alone is not proof of rotational blade coverage. RigidBody3D CCD uses continuous_cd. Verify concrete APIs again before implementing each future system.
+
+## Current implementation: Phase 1
+
+Main scene: scenes/test/sword_lab.tscn. No character, damage, AI, attack assist, parry assist or second sword.
+
+- SwordLab is the composition root and fixed-tick orchestrator. It builds the simple floor/obstacle/camera and wires UI signals.
+- LabInput accumulates relative mouse events; SwordMotionPlanner consumes them on physics ticks. RMB wins over LMB; intent is telemetry only. Cursor mode clears motion and holds the target so editing never drives the sword. First capture motion is discarded to avoid cursor-warp jumps.
+- SwordMotionPlanner maintains raw goal and rate-limited desired pose, velocity and angular velocity. Mouse screen-right/up directions are projected and normalized onto the lab X/Y plane; target-based depth supplies world Z. This keeps lateral control usable from the side view, though screen-space motion is foreshortened there. Camera cycling never rewrites goal or desired pose.
+- DepthStrategy is an injected interface; TargetDepthStrategy computes clamp(target.z + offset, min, max). Target X/Y are visible debug reference coordinates and intentionally do not attract the blade. There is no contact magnetism.
+- PhysicalSwordController computes implicit-PD-scaled position and orientation feedback with shortest-path quaternion error. It applies central force and world torque with explicit caps. Position feedback is measured at the center of mass, while displayed position error is at the grip origin. Gravity compensation counts against the force cap. Actual velocity supplies damping; desired velocities are separately measured, with no velocity feedforward in this baseline. Actual transform/velocity is never assigned after initial spawning.
+- SwordBody only snapshots solver contact positions in _integrate_forces. All control force application, planning and metrics run in _physics_process. The read-only contact callback does not integrate or drive physics.
+- SwordVisual creates a deliberately simple mesh, markers and one separate box collider. The guard/pommel visual protrusions have no additional collision shapes in Phase 1.
+- LabDebugDraw renders desired/actual outlines, target region (not anatomical reach), reference marker, contact crosses and force/torque/error vectors.
+- LabMetrics logs grip error, angular error, RMS/peak error, actual/desired speeds, force/torque, obstacle entries and recovery after contact release. Sustained settling is required. The standalone test additionally measures step overshoot and withdrawal-to-settle time.
+- LabPanel edits a per-run duplicate of SwordTuning. Geometry changes rebuild the mesh/collider/markers at a physics tick; mass, inertia, camera and obstacle edits are applied without teleporting the sword. Target Start edits apply on R. No Resource is saved by runtime edits.
+
+Collision layers retain the existing named allocation. WORLD is used by floor/obstacle; PLAYER_SWORD by the rigid sword. Damage layers remain unused. Built-in Jolt, continuous_cd=true, zero bounce, custom COM/inertia, and explicit damping are configured. A 60 Hz default physics tick is the validation baseline.
+
+Additional 4.7 references verified before implementation:
+- https://docs.godotengine.org/en/4.7/classes/class_quaternion.html
+- https://docs.godotengine.org/en/4.7/classes/class_camera3d.html
+- https://docs.godotengine.org/en/4.7/classes/class_input.html
+- https://docs.godotengine.org/en/4.7/classes/class_immediatemesh.html
+- https://docs.godotengine.org/en/4.7/classes/class_basematerial3d.html
+- https://docs.godotengine.org/en/4.7/classes/class_physicsdirectbodystate3d.html
+- https://docs.godotengine.org/en/4.7/classes/class_projectsettings.html
+
+Force/torque APIs are used every physics tick, not impulse APIs. CCD is not a guarantee of arbitrary rotational collision coverage; Phase 2 must validate that separately.
