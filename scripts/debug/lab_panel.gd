@@ -4,6 +4,8 @@ extends PanelContainer
 signal setting_changed(property_name: StringName)
 signal close_requested
 
+var defaults_path: String = "res://resources/tuning/sword_tuning.tres"
+var first_group: String = ""
 var tuning: SwordTuning
 var _editors: Dictionary[StringName, SpinBox] = {}
 var _style: StyleBoxFlat
@@ -31,7 +33,13 @@ func _ready() -> void:
 	var rows: VBoxContainer = VBoxContainer.new()
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(rows)
-	for info: Dictionary in tuning.get_property_list():
+	var properties: Array[Dictionary] = tuning.get_property_list()
+	if not first_group.is_empty():
+		for index: int in range(properties.size()):
+			if String(properties[index]["name"]) == first_group:
+				properties = properties.slice(index) + properties.slice(0, index)
+				break
+	for info: Dictionary in properties:
 		var usage: int = int(info["usage"])
 		if usage & PROPERTY_USAGE_GROUP:
 			var heading: Label = Label.new()
@@ -45,8 +53,9 @@ func _ready() -> void:
 			var bounds: PackedStringArray = String(info["hint_string"]).split(",")
 			add_editor(rows, key, float(bounds[0]), float(bounds[1]), float(bounds[2]), -1)
 		elif int(info["type"]) == TYPE_VECTOR3:
+			var rotation_field: bool = String(key).ends_with("rotation_degrees")
 			for axis: int in range(3):
-				add_editor(rows, key, 0.05 if String(key).ends_with("size") else -10.0, 10.0, 0.05, axis)
+				add_editor(rows, key, -180.0 if rotation_field else (0.05 if String(key).ends_with("size") else -10.0), 180.0 if rotation_field else 10.0, 1.0 if rotation_field else 0.05, axis)
 	var reset: Button = Button.new()
 	reset.name = "ResetTuning"
 	reset.text = "Reset all settings [F5]"
@@ -76,7 +85,7 @@ func add_editor(rows: VBoxContainer, key: StringName, minimum: float, maximum: f
 
 func _edit(value: float, key: StringName, axis: int) -> void:
 	if axis < 0:
-		tuning.set(key, value)
+		tuning.set(key, int(value) if typeof(tuning.get(key)) == TYPE_INT else value)
 	else:
 		var vector: Vector3 = tuning.get(key)
 		vector[axis] = value
@@ -86,7 +95,7 @@ func _edit(value: float, key: StringName, axis: int) -> void:
 	print("SWORD_TUNING ", key, "=", tuning.get(key))
 
 func reset_defaults() -> void:
-	var defaults: SwordTuning = load("res://resources/tuning/sword_tuning.tres") as SwordTuning
+	var defaults: SwordTuning = load(defaults_path) as SwordTuning
 	for info: Dictionary in defaults.get_property_list():
 		if int(info["usage"]) & PROPERTY_USAGE_SCRIPT_VARIABLE == 0:
 			continue

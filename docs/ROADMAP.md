@@ -32,3 +32,7 @@ Manual gate: slow guidance, abrupt reversal, withdrawal from an obstacle, and sl
 ## Current gate state
 
 Phase 0 approved by developer (F1/F2/F5 confirmed). Phase 1 implementation and automated checks complete; manual feel approval pending. Phase 2 remains unauthorized. The initial camera/input and reference-depth decisions are resolved in DECISIONS.md; the conditional parry feasibility question remains a Phase 4 issue.
+
+## Phase 2 gate state - 2026-11-06
+
+Phase 1 was subsequently approved for progression with open feel feedback. Phase 2 implementation and controlled checks are complete; developer playtest is pending. Phase 3 is NOT authorized. The broad-face/sluggishness observations remain open, and no acceleration or assistance has been added.

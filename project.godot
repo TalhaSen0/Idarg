@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Idarg"
-run/main_scene="res://scenes/test/sword_lab.tscn"
+run/main_scene="res://scenes/test/contact_lab.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [debug]
 
 file_logging/enable_file_logging=true
-file_logging/log_path="user://logs/sword_lab.log"
+file_logging/log_path="user://logs/contact_lab.log"
 
 [display]
 

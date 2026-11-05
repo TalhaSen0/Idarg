@@ -45,3 +45,29 @@ Low force caps can be insufficient even to hold the sword against gravity. Broad
 Logs: user://logs/sword_lab.log. SWORD_METRICS contains current/RMS/peak grip error, angle error, speeds, applied force/torque, contact entries and latest recovery; -1 recovery means no completed recovery yet. Recovery starts when contact is lost and includes the sustained settling window. The scripted test's withdrawal-to-settle time starts earlier, at the withdrawal command. Contact entries may count repeated recontacts; they are not damage events. Runtime peak error is not overshoot; step overshoot is measured separately by the repeatable test.
 
 Static floor dimensions, mesh decorative dimensions/colors, UI padding and debug cross sizes are presentation constants, not physical-control tuning. No attack/parry strengths are exposed until those systems exist.
+
+## Phase 2 settings
+
+Contact Lab loads resources/tuning/contact_tuning.tres, extending the unchanged Phase 1 defaults. F2 lists contact fields first; previous controller fields follow. F5 resets the active asset. Runtime edits remain session-only.
+
+| Setting | Default | Meaning |
+|---|---|---|
+| opponent_position | (-0.2, 1.75, -0.45) m | Static sword grip |
+| opponent_rotation_degrees | (0, 0, -90) deg | Horizontal blade |
+| opponent_friction | 0.3 | Physical friction |
+| hurtbox_position / size | (-0.8, 1.6, -0.5) / (0.15, 0.7, 0.5) m | Nonblocking probe |
+| blade_samples | 25 | BladeBase through Tip |
+| sweep_radius | 0.02 m | Swept capsule radius |
+| rotation_step_degrees | 5 deg | Rotational subdivision angle |
+| max_rotation_steps | 36 | Cost cap; capped frames logged |
+| query_max_results | 16 | Area results per query |
+| minimum_hit_speed | 0.25 m/s | Slow contact rejection |
+| minimum_edge_alignment | 0.65 | Edge directional cosine |
+| minimum_tip_alignment | 0.75 | Forward tip directional cosine |
+| tip_start_fraction / forte_end_fraction | 0.85 / 0.35 | Region boundaries |
+| forte / foible / tip weight | 0.6 / 1.0 / 1.2 | Score weighting |
+| score_scale | 1.0 | Diagnostic scale, not HP |
+
+Move/reorient fixtures only while the sword is clear; editing them into the sword creates overlaps. F5 also resets fixture positions. History is invalidated on geometry/fixture edits. Detection tolerances and score weights are provisional.
+
+The active project log is user://logs/contact_lab.log, also when running older lab scenes. CONTACT_METRICS and BLADE_HIT supplement SWORD_METRICS. Report tuning, camera, and whether the issue is physical blocking, a missing candidate, or a flat/slow rejection.

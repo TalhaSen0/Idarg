@@ -55,7 +55,7 @@ Versioned references checked during setup:
 
 SkeletonIK3D is deprecated; IKModifier3D has ChainIK3D and TwoBoneIK3D derivatives. Do not choose an IK implementation before Phase 3 validation. Jolt does not support several soft-limit joint properties. ShapeCast3D sweeps along target_position; it alone is not proof of rotational blade coverage. RigidBody3D CCD uses continuous_cd. Verify concrete APIs again before implementing each future system.
 
-## Current implementation: Phase 1
+## Phase 1 implementation (retained lab)
 
 Main scene: scenes/test/sword_lab.tscn. No character, damage, AI, attack assist, parry assist or second sword.
 
@@ -82,3 +82,29 @@ Additional 4.7 references verified before implementation:
 - https://docs.godotengine.org/en/4.7/classes/class_projectsettings.html
 
 Force/torque APIs are used every physics tick, not impulse APIs. CCD is not a guarantee of arbitrary rotational collision coverage; Phase 2 must validate that separately.
+
+## Current implementation: Phase 2 Contact Lab
+
+Main scene: scenes/test/contact_lab.tscn. ContactLab extends SwordLab with an injected ContactTuning asset. Sword Lab remains runnable independently. Contact Lab hides/disables the old hard obstacle but retains the floor.
+
+- OpponentSword: static body on OPPONENT_SWORD, mask WORLD | PLAYER_SWORD | BODY. Position, rotation and friction are editable. It cannot establish parry-assist correctness.
+- DamageProbe: nonblocking Area3D on HURTBOX, mask 0, translucent green mesh. Overlap signals do not generate damage.
+- BladeHitDetector receives actual previous/current poses, local BladeBase/Tip markers, fixed delta, attack eligibility and excluded owner RIDs. It does not read desired pose or physical contact impulses.
+- Evenly spaced blade points are swept between poses. Rotational interpolation is subdivided by an angular limit. Each sample segment becomes an oriented capsule of radius r and height segment_length + 2r. intersect_shape queries this swept volume, including starting overlaps. It does not rely on the query's ignored motion property.
+- Queries include areas only on DAMAGE_QUERY_MASK. Explicit RIDs filter owners. Each tick selects the strongest sample per area; each trial emits at most once per area ID. Future characters with multiple hurtboxes will need owner-level identity mapping.
+- Contact position comes from get_rest_info on the swept capsule, excluding other reported areas. It is a swept-volume contact, not an exact time-of-impact. Sample endpoint is a fallback if rest info is unavailable.
+- Speed is actual sample displacement/substep time. Edge alignment is absolute dot against local X (both edges); tip thrust requires positive local Y at a tip-region sample. Flat/slow candidates score zero. Score = speed squared * alignment * region weight * score_scale. This is diagnostic, not a biomechanical damage model.
+- BladeHit carries target/trial ID, position, speed, alignment, blade fraction, region, kind and score through hit_detected. ContactLab logs events without implementing HP.
+- ContactDebugDraw displays sample points/sweeps, last probe contact, and edge/face axes. F1 toggles it with the prior debug. Physical contact crosses remain independent.
+- Metrics include physical contact ticks/entries, projected grip displacement along the opponent blade while touching, hit events, suppressed candidates, query counts and subdivision-cap usage. Slide distance is not contact-point slip, and recontacts can increase entry counts.
+- Contact settings appear first in the panel. F5 restores the active ContactTuning asset. Rotation-vector fields use degree bounds, not position bounds. Geometry/fixture edits reset sweep history to avoid synthetic hits from edits.
+
+The detector and contact metrics run in _physics_process. The existing read-only solver contact snapshot remains in _integrate_forces. No force-controller or input acceleration changes.
+
+4.7 API references checked:
+- https://docs.godotengine.org/en/4.7/classes/class_physicsdirectspacestate3d.html
+- https://docs.godotengine.org/en/4.7/classes/class_physicsshapequeryparameters3d.html
+- https://docs.godotengine.org/en/4.7/classes/class_capsuleshape3d.html
+- https://docs.godotengine.org/en/4.7/classes/class_area3d.html
+
+Limits: finite samples/radius approximate the blade, not exact swept-mesh collision. Lower density/radius can open gaps; larger radius can accept near contacts. Angular caps are counted and can reduce coverage. Query-result limits can truncate dense scenes; this lab has one damage probe. Only stationary hurtboxes are validated. Relative target motion and multiple revolutions within one tick require future work.

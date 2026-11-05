@@ -3,6 +3,9 @@ extends Node3D
 
 const DEFAULT_TUNING: SwordTuning = preload("res://resources/tuning/sword_tuning.tres")
 
+@export var tuning_resource: SwordTuning = DEFAULT_TUNING
+@export var tuning_first_group: String = ""
+
 var tuning: SwordTuning
 var input_reader: LabInput
 var planner: SwordMotionPlanner = SwordMotionPlanner.new()
@@ -24,7 +27,7 @@ var _rebuild_sword: bool = false
 var _display_elapsed: float = 0.0
 
 func _ready() -> void:
-	tuning = DEFAULT_TUNING.duplicate() as SwordTuning
+	tuning = tuning_resource.duplicate() as SwordTuning
 	planner.initialize(tuning)
 	automated_goal = planner.desired_pose
 	_build_world()
@@ -52,7 +55,7 @@ func _ready() -> void:
 	_build_ui()
 	set_camera(0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	print("SWORD_LAB_START ", Engine.get_version_info()["string"], " tuning=res://resources/tuning/sword_tuning.tres")
+	print("SWORD_LAB_START ", Engine.get_version_info()["string"], " tuning=", tuning_resource.resource_path)
 	get_viewport().size_changed.connect(_layout_panel)
 	_layout_panel()
 
@@ -111,6 +114,8 @@ func _build_ui() -> void:
 	canvas.add_child(overlay)
 	panel = LabPanel.new()
 	panel.tuning = tuning
+	panel.defaults_path = tuning_resource.resource_path
+	panel.first_group = tuning_first_group
 	panel.setting_changed.connect(_on_setting_changed)
 	panel.close_requested.connect(_close_panel)
 	canvas.add_child(panel)

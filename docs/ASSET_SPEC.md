@@ -1,4 +1,4 @@
-# Sword asset specification — Phase 1 placeholder
+# Sword asset specification â€” Phase 1 placeholder
 
 Origin: primary grip center. Local +Y runs along the blade toward the tip; +X is the true-edge outward direction, -X the opposite edge; +Z is the broad face normal. This defines the previously pending axes. The visual is a box blade, grip, crossguard and pommel, not a final asset or tapered collision mesh.
 
@@ -7,3 +7,7 @@ Defaults: blade 0.95 m; grip 0.24 m; overall geometry about 1.215 m including po
 Marker3D children: GripMain at origin, GripFront near the guard, Pommel at rear, Crossguard/BladeBase at grip_length/2, BladeMid halfway along the blade, Tip at grip_length/2 + blade_length. Marker coordinates update with geometry tuning.
 
 A separate single BoxShape3D spans grip and blade. The visible guard and pommel protrusions do not block objects in Phase 1. No swept damage sample system exists yet. Future assets must preserve these axes and marker names or explicitly document a conversion.
+
+## Phase 2 samples
+
+Samples derive from the actual sword's BladeBase and Tip markers, including both endpoints. Local X is the edge axis, local Y the forward tip axis, local Z the broad-face normal. Rotational interpolation traces the samples between actual physics poses. The static opponent shares mesh/marker/collider conventions with a neutral grey material. No physical dimensions changed.

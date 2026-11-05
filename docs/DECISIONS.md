@@ -31,3 +31,12 @@
 - RMB/defend takes precedence when both mouse buttons are held. Re-evaluate after playtesting. Intent is diagnostic only until later assistance work.
 - Tuning panel must occupy a corner, be translucent and closable while the sword stays visible.
 - Phase 1 controls: Tab toggles cursor capture; F2 opens tuning and releases the cursor. Uncaptured mode holds the desired pose while editing. C changes view without changing the desired pose. I/K, J/L, U/O move the debug target forward/back, left/right, up/down. R recenters the desired target only; it never teleports the physical sword.
+
+## Phase 2 authorization - 2026-11-06
+
+- Developer approved Phase 2 only; Phase 3 is not authorized.
+- Open Phase 1 feedback: broad-face hits and somewhat slow movement. Developer deferred mouse acceleration and chose to preserve current behavior. Feel is not marked solved.
+- Contact Lab uses the permitted static second sword variant. No AI, character, wrist correction or parry assistance is added.
+- A nonblocking green Area3D probe tests detection separately from physical blocking. Hit scores are diagnostic events, not HP/death gameplay.
+- One fresh LMB press in captured ATTACK mode starts a lab trial. Each hurtbox emits at most one qualified event per trial. This is a testing convention, not final swing classification. RMB takes priority; toggling it does not rearm the same LMB hold. Cursor/panel mode cancels the trial and requires release/repress.
+- Controller gains, desired speed limits, sensitivity and physical blade dimensions retain the Phase 1 baseline. The blade-length editor step changed from 0.02 to 0.01 m so the existing 0.95 m value displays exactly.

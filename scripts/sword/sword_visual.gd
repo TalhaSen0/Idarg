@@ -16,9 +16,9 @@ static func box(parent: Node3D, size: Vector3, offset: Vector3, color: Color) ->
 	parent.add_child(instance)
 	return instance
 
-static func build(body: SwordBody, tuning: SwordTuning) -> void:
+static func build(body: PhysicsBody3D, tuning: SwordTuning, blade_color: Color = Color(0.65, 0.85, 0.9)) -> void:
 	var guard_y: float = tuning.grip_length * 0.5
-	box(body, Vector3(tuning.blade_width, tuning.blade_length, tuning.blade_thickness), Vector3(0.0, guard_y + tuning.blade_length * 0.5, 0.0), Color(0.65, 0.85, 0.9))
+	box(body, Vector3(tuning.blade_width, tuning.blade_length, tuning.blade_thickness), Vector3(0.0, guard_y + tuning.blade_length * 0.5, 0.0), blade_color)
 	box(body, Vector3(0.035, tuning.grip_length, 0.035), Vector3.ZERO, Color(0.16, 0.09, 0.05))
 	box(body, Vector3(tuning.guard_width, 0.03, 0.04), Vector3(0.0, guard_y, 0.0), Color(0.6, 0.47, 0.22))
 	box(body, Vector3(0.06, 0.05, 0.06), Vector3(0.0, -guard_y, 0.0), Color(0.6, 0.47, 0.22))

@@ -27,3 +27,9 @@ Use ROADMAP.md for phase gates and PLAYTEST_LOG.md for evidence. Every ANTI_GOOF
 The character-free lab uses a fixed view with C-cycled rear, side and shoulder-like angles. Mouse displacement translates the hilt in a bounded region and maps that displacement to bounded pitch/roll. This is a provisional control mapping for feel testing, not swing classification or wrist assistance. No independent manual yaw/roll binding, stab recognition, or edge alignment exists yet. A visible movable reference drives automatic depth through a replaceable strategy; lateral/vertical reference motion does not aim or magnetize the sword.
 
 Tab releases/captures the cursor. F2 opens a translucent corner panel and releases the cursor; physics continues tracking the held target. Closing the panel resumes control. R recenters only the desired goal and depth reference; the physical sword returns through the controller. F1 hides debug graphics/metrics; it does not hide the physical sword, obstacle or target marker. F5 restores tuning defaults.
+
+## Phase 2 lab
+
+A fixed horizontal grey sword tests physical blocking/sliding. A separate translucent green probe tests detection without physical resistance. Previous mouse/controller behavior remains unchanged.
+
+Hold LMB and pass through the green probe to attempt a hit; release/repress for a new trial. Valid cuts require actual speed and edge alignment. Thrusts must lead with the tip in the blade-forward direction. Flat/slow overlaps are visible but do not score. RMB inhibits attack events. No swing recognition, injury, enemy behavior or automatic wrist correction is implemented.

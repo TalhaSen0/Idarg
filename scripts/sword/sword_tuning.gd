@@ -13,7 +13,7 @@ extends Resource
 @export_range(0.03, 0.5, 0.01) var inertia_transverse: float = 0.16
 @export_range(0.001, 0.03, 0.001) var inertia_axial: float = 0.004
 @export_range(0.0, 0.6, 0.01) var center_of_mass_y: float = 0.32
-@export_range(0.7, 1.3, 0.02) var blade_length: float = 0.95
+@export_range(0.7, 1.3, 0.01) var blade_length: float = 0.95
 @export_range(0.02, 0.09, 0.005) var blade_width: float = 0.05
 @export_range(0.008, 0.04, 0.002) var blade_thickness: float = 0.012
 @export_range(0.15, 0.35, 0.01) var grip_length: float = 0.24
