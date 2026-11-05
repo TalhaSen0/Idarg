@@ -1,0 +1,42 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Idarg"
+run/main_scene="res://scenes/test/phase_zero.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+
+[layer_names]
+
+3d_physics/layer_1="World"
+3d_physics/layer_2="PlayerSword"
+3d_physics/layer_3="OpponentSword"
+3d_physics/layer_4="Body"
+3d_physics/layer_5="Hurtbox"
+
+[debug]
+
+file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/phase_zero.log"
