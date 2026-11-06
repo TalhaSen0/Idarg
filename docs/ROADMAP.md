@@ -31,8 +31,14 @@ Manual gate: slow guidance, abrupt reversal, withdrawal from an obstacle, and sl
 
 ## Current gate state
 
-Phase 0 approved by developer (F1/F2/F5 confirmed). Phase 1 implementation and automated checks complete; manual feel approval pending. Phase 2 remains unauthorized. The initial camera/input and reference-depth decisions are resolved in DECISIONS.md; the conditional parry feasibility question remains a Phase 4 issue.
+Phase 0 approved by developer (F1/F2/F5 confirmed). Phase 1 implementation and automated checks are complete; **subjective feel items from Phase 1 remain open** in `DECISIONS.md` (broad-face/slowness notes), not treated as blocking Contact Lab.
+
+Phase 2 (**Contact Lab**) is **approved by developer (2026-11-06)** after manual playtest with documented notes in `docs/PLAYTEST_LOG.md`. Automated checks remain in `docs/VALIDATION.md` (`tests/phase_two_checks.gd`).
+
+**Phase 3 is authorized to begin** (kinematic body + ArmIK following actual sword grip + reach envelope + torso twist). Phase 3 implementation is **not yet started** in code until scenes/scripts land under `scenes/` / `scripts/character/` per `AGENTS.md`.
+
+The initial camera/input and reference-depth decisions are resolved in `DECISIONS.md`. The conditional parry feasibility question remains a Phase 4 issue.
 
 ## Phase 2 gate state - 2026-11-06
 
-Phase 1 was subsequently approved for progression with open feel feedback. Phase 2 implementation and controlled checks are complete; developer playtest is pending. Phase 3 is NOT authorized. The broad-face/sluggishness observations remain open, and no acceleration or assistance has been added.
+Phase 1 was subsequently approved for progression with open feel feedback. Phase 2 implementation and controlled checks are complete; **developer playtest approved 2026-11-06** (`docs/PLAYTEST_LOG.md`). **Phase 3 implementation authorized** to start. The broad-face/sluggishness observations remain open, and no acceleration or assistance has been added.

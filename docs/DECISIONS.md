@@ -34,9 +34,14 @@
 
 ## Phase 2 authorization - 2026-11-06
 
-- Developer approved Phase 2 only; Phase 3 is not authorized.
+- Developer authorized **Phase 2 implementation only** during this gate; Phase 3 was **not** authorized until Phase 2 completed (see Phase 2/3 completion entry below).
 - Open Phase 1 feedback: broad-face hits and somewhat slow movement. Developer deferred mouse acceleration and chose to preserve current behavior. Feel is not marked solved.
 - Contact Lab uses the permitted static second sword variant. No AI, character, wrist correction or parry assistance is added.
 - A nonblocking green Area3D probe tests detection separately from physical blocking. Hit scores are diagnostic events, not HP/death gameplay.
 - One fresh LMB press in captured ATTACK mode starts a lab trial. Each hurtbox emits at most one qualified event per trial. This is a testing convention, not final swing classification. RMB takes priority; toggling it does not rearm the same LMB hold. Cursor/panel mode cancels the trial and requires release/repress.
 - Controller gains, desired speed limits, sensitivity and physical blade dimensions retain the Phase 1 baseline. The blade-length editor step changed from 0.02 to 0.01 m so the existing 0.95 m value displays exactly.
+
+## Phase 2 completion and Phase 3 authorization — 2026-11-06
+
+- Developer **approved Phase 2** (manual playtest; short feedback in `docs/PLAYTEST_LOG.md`). Known lab limitation: crossguard/pommel visuals have no separate collision shapes; single box collider documents the blade + grip span only (`scripts/sword/sword_visual.gd`).
+- **Phase 3 implementation is authorized:** kinematic body proxy, hands follow the **actual** physical sword grip via ArmIK (IK approach to be chosen and verified against Godot 4.7 docs), reach envelope, torso twist; **no physical legs**, no attack/parry assistance yet.

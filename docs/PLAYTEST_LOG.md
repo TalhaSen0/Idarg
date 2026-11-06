@@ -65,7 +65,7 @@ Developer authorized Phase 2 after brief playtesting. Sword seems to strike with
 
 ## Phase 2 handoff - 2026-11-06
 
-Developer approval: pending. Scene: contact_lab.tscn. Existing F1/F2/F5, C, Tab, I/K/J/L/U/O and R controls remain.
+Developer approval: **received (2026-11-06)** — see “Phase 2 manual feedback” entry below. Scene: contact_lab.tscn. Existing F1/F2/F5, C, Tab, I/K/J/L/U/O and R controls remain.
 
 1. Identify the cyan player sword, horizontal grey blocking sword and translucent green probe on the left. Cycle C; report visibility/occlusion issues.
 2. Without LMB, gently move into the grey blade. Use I/K to adjust depth. Desired and actual poses should separate under resistance. Report visible pass-throughs; sliding/rotating off an end is different from passing through the middle.
@@ -74,7 +74,7 @@ Developer approval: pending. Scene: contact_lab.tscn. Existing F1/F2/F5, C, Tab,
 5. Cross again while LMB stays held: no second event for that probe. Release/repress for a new trial. Cursor mode cancels the trial, requiring a fresh press afterward. RMB suppresses attack events and provides no automatic defense.
 6. Try slow movements and broad-face/depth movement using I/K. Report whether slow/flat contacts are rejected. Yellow edge and pink face-normal axes help inspect orientation. No automatic wrist correction exists.
 7. In F2, vary Opponent Friction, Blade Samples or Sweep Radius one at a time. Restore F5 while clear of fixtures. Report physical sliding separately from query misses/false positives; a larger radius is not necessarily more accurate.
-8. Rate contact clarity, weight and desire to replay (1-5); describe broad-face hits/sluggishness. Supply camera, tuning values and log excerpts. Phase 3 still requires explicit approval.
+8. Rate contact clarity, weight and desire to replay (1-5); describe broad-face hits/sluggishness. Supply camera, tuning values and log excerpts. **Phase 3 implementation authorized (2026-11-06)** per `docs/DECISIONS.md` / `docs/ROADMAP.md`; full ratings for item 8 remain optional.
 
 ANTI_GOOFY status:
 - Broad-face hit: partial diagnostic improvement (flat-score rejection and axes); orientation behavior unresolved.
@@ -89,3 +89,11 @@ ANTI_GOOFY status:
 - Weight/momentum preservation: retained physical controller; subjective result pending.
 - Angle/timing freedom: unchanged provisional mapping.
 - Believable clashes: controlled blocking/sliding passes; subjective result pending.
+
+## 2026-11-06 — Phase 2 manual feedback (developer)
+
+- **Tester note (short):** Little else stood out; it feels like the swords can pass through each other near the **hand guard** region.
+- **Explanation (not a bug for this lab build):** `SwordVisual` uses **one** `BoxShape3D` sized to blade + grip length; **crossguard and pommel meshes have no extra collision shapes**, so geometry there can visually overlap while the physics volume is only the central box. See `scripts/sword/sword_visual.gd` and `docs/ARCHITECTURE.md` (Phase 1 sword visual / collider notes).
+- **Objective:** Separately validate **blade vs static opponent** contact and **green probe** hit detection per Phase 2 checklist; guard overlap is a known simplification until a dedicated hilt/collider layout is added (future work, not Phase 3 authorization by itself).
+- **Ratings / full checklist:** Deferred; developer may fill after another focused pass or approve with this note.
+- **Decision:** **Approved by developer (2026-11-06).** Proceed to Phase 3 implementation per `docs/ROADMAP.md` / `docs/DECISIONS.md`. Known limitation: guard/pommel visuals have no separate colliders in this lab build (`scripts/sword/sword_visual.gd`); may be revisited later.
